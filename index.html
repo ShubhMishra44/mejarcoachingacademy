@@ -105,10 +105,17 @@
 
     <!-- Icons Setup (Using simple inline SVG for common shapes) -->
     <script>
-        // Placeholder function for simple SVG icons
+        // NOTE: The getIcon function remains but is no longer used for the course icons, 
+        // which are now directly in the HTML for reliability.
         const getIcon = (name, size = 24, classes = "") => {
             const icons = {
-                // Lucide icon approximations
+                // New, more specific icons
+                gear: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M12 2v2"/><path d="m15 4-1 3.5"/><path d="M19.5 8.5l-3.5 1"/><path d="M22 12h-2"/><path d="m19.5 15.5-3.5-1"/><path d="m15 19-1-3.5"/><path d="M12 22v-2"/><path d="m9 19 1-3.5"/><path d="M4.5 15.5l3.5-1"/><path d="M2 12h2"/><path d="m4.5 8.5 3.5 1"/><path d="m9 4 1 3.5"/><circle cx="12" cy="12" r="3"/></svg>`,
+                stethoscope: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M14 5H6"/><path d="M22 12v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M14 18v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M9 14v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M12 12v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2"/><circle cx="12" cy="5" r="3"/></svg>`,
+                book: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>`,
+                globe: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+
+                // Previous generic icons (kept for safety in other sections)
                 graduationCap: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M21.42 10.922a1 1 0 0 0-.012-.625l-8.525-5.698a2 2 0 0 0-1.785 0L2.592 10.297a1 1 0 0 0-.012.625l8.525 5.698a2 2 0 0 0 1.785 0z"/><path d="M14.28 17.653l-.008.005a2.001 2.001 0 0 0 1.785 0l8.525-5.698a1 1 0 0 0-.012-.625"/><path d="M3 13v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6"/></svg>`,
                 atom: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><circle cx="12" cy="12" r="2"/><path d="M18.8 15.6l-5.6-3.2"/><path d="M18.8 8.4l-5.6 3.2"/><path d="M5.2 8.4l5.6 3.2"/><path d="M5.2 15.6l5.6-3.2"/></svg>`,
                 users: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
@@ -142,11 +149,10 @@
                 <!-- Logo/Branding (Clicking logo serves as Home link) -->
                 <div class="flex items-center justify-start flex-shrink-0 space-x-2">
                     <a href="#hero" class="flex items-center space-x-2">
-                        <!-- Institute Logo -->
-                        <img src="fd74528a-64c3-45b1-8cdb-6037b1e66676-removebg-preview.png" 
+                        <!-- Institute Logo - FIXED: Using Placeholder URL -->
+                        <img src="https://placehold.co/40x40/facc15/1e3a8a?text=MCA" 
                             alt="Mejar Coaching Academy Logo" 
                             class="h-10 w-auto"
-                            onerror="this.onerror=null; this.src='https://placehold.co/40x40/facc15/1e3a8a?text=MCA';"
                         >
                         <span class="text-2xl font-extrabold text-primary tracking-tight transition duration-300 hover:text-secondary">
                             Mejar <span class="text-secondary hover:text-primary">Academy</span>
@@ -191,13 +197,12 @@
         <div class="rounded-lg shadow-2xl bg-white ring-1 ring-black ring-opacity-5 divide-y-2 divide-gray-50">
             <div class="pt-5 pb-6 px-5">
                 <div class="flex items-center justify-between">
-                    <!-- Mobile Logo/Branding - FIXED IMAGE DISPLAY ISSUE HERE -->
+                    <!-- Mobile Logo/Branding - FIXED: Using Placeholder URL -->
                     <div class="flex items-center space-x-2">
                         <!-- Added custom styling to img tag inside mobile menu to prevent image error fallback border -->
-                        <img src="fd74528a-64c3-45b1-8cdb-6037b1e66676-removebg-preview.png" 
+                        <img src="https://placehold.co/40x40/facc15/1e3a8a?text=MCA" 
                              alt="Mejar Coaching Academy Logo" 
                              class="h-8 w-auto border-none" 
-                             onerror="this.onerror=null; this.style.border='none'; this.src='https://placehold.co/40x40/facc15/1e3a8a?text=MCA';"
                         >
                         <span class="text-xl font-extrabold text-primary">Mejar Academy</span>
                     </div>
@@ -291,28 +296,40 @@
                 <div class="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
                     <!-- Course 1: JEE (Engineering) -->
                     <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up">
-                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6" innerHTML="${getIcon('atom', 32, 'text-secondary')}"></div>
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Gear -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M12 2v2"/><path d="m15 4-1 3.5"/><path d="M19.5 8.5l-3.5 1"/><path d="M22 12h-2"/><path d="m19.5 15.5-3.5-1"/><path d="m15 19-1-3.5"/><path d="M12 22v-2"/><path d="m9 19 1-3.5"/><path d="M4.5 15.5l3.5-1"/><path d="M2 12h2"/><path d="m4.5 8.5 3.5 1"/><path d="m9 4 1 3.5"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-2">JEE Main & Advanced</h3>
                         <p class="text-gray-600">Comprehensive coaching for IIT-JEE. Focused on conceptual clarity and problem-solving techniques.</p>
                     </div>
                     
                     <!-- Course 2: NEET (Medical) -->
                     <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.1s;">
-                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6" innerHTML="${getIcon('graduationCap', 32, 'text-secondary')}"></div>
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Stethoscope -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M14 5H6"/><path d="M22 12v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M14 18v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M9 14v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M12 12v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2"/><circle cx="12" cy="5" r="3"/></svg>
+                        </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-2">NEET UG Preparation</h3>
                         <p class="text-gray-600">Expert guidance for medical entrance exams, covering Physics, Chemistry, and Biology in depth.</p>
                     </div>
 
                     <!-- Course 3: School (Class 11-12) -->
                     <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.2s;">
-                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6" innerHTML="${getIcon('compass', 32, 'text-secondary')}"></div>
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Book -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+                        </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-2">School Boards (11th & 12th)</h3>
                         <p class="text-gray-600">Targeted coaching for CBSE, ICSE, and UP Board exams to ensure top scores in core subjects.</p>
                     </div>
 
                     <!-- Course 4: Foundation (Class 6-10) -->
                     <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.3s;">
-                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6" innerHTML="${getIcon('users', 32, 'text-secondary')}"></div>
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Globe -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-2">Foundation Courses (6th - 10th)</h3>
                         <p class="text-gray-600">Building strong fundamentals early for competitive advantage in future exams, starting from **Class 6**.</p>
                     </div>
@@ -566,32 +583,33 @@
     </main>
 
     <!-- Footer -->
-   <footer class="bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-6">
-            <div class="text-center md:text-left">
-                <p class="text-gray-400 text-sm">
-                    &copy; 2025 Mejar Coaching Academy. All rights reserved.
-                </p>
-                <p class="text-gray-500 text-xs mt-1">
-                    Designed & Developed by 
-                    <a href="https://www.linkedin.com/in/shubh-mishra-17000629b" target="_blank" class="text-secondary hover:underline">
-                        Shubh Mishra
-                    </a>
-                </p>
-            </div>
-            <div class="flex space-x-6 mt-4 md:mt-0">
-                <!-- Facebook Link -->
-                <a href="https://m.facebook.com/profile.php?id=100054509288448&name=xhp_nt__fb__action__open_user" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Facebook</a>
-                <!-- Instagram Link -->
-                <a href="https://www.instagram.com/mejarcoachingacademy?igsh=d3dmaWtxeDNyNWll" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Instagram</a>
-                <!-- YouTube Link -->
-                <a href="https://youtube.com/@mejarcoachingacademy6388?si=-yj29eo_MA0K2Ntr" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">YouTube</a>
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-6">
+                
+                <!-- Copyright and Designed By Container -->
+                <div class="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left">
+                    <p class="mb-0">
+                        &copy; 2025 Mejar Coaching Academy. All rights reserved.
+                    </p>
+                    <!-- REVERTED: Now explicitly includes Shubh Mishra as requested -->
+                    <p class="text-gray-500 text-xs mt-1">
+                        Designed & Developed by
+                        <a href="https://www.linkedin.com/in/shubh-mishra-17000629b" target="_blank" rel="noopener noreferrer" class="text-secondary hover:underline">
+                            Shubh Mishra
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <!-- Social Media Links -->
+                    <a href="https://m.facebook.com/profile.php?id=100054509288448&name=xhp_nt__fb__action__open_user" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Facebook</a>
+                    <a href="https://www.instagram.com/mejarcoachingacademy?igsh=d3dmaWtxeDNyNWll" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Instagram</a>
+                    <a href="https://youtube.com/@mejarcoachingacademy6388?si=-yj29eo_MA0K2Ntr" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">YouTube</a>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
-
+    </footer>
 
     <!-- Back to Top Button -->
     <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
@@ -674,3 +692,4 @@
     </script>
 </body>
 </html>
+
