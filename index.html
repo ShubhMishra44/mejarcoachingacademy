@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mejar Coaching Academy - Your Path to Success</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind and Custom Font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#1e3a8a', // Deep Navy Blue
+                        'secondary': '#facc15', // Gold/Amber Yellow
+                        'background-light': '#f9fafb',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for smooth scrolling and general styling */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            /* FIX: Prevents horizontal scrolling caused by overflowing elements */
+            overflow-x: hidden; 
+        }
+        
+        /* Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+        .in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Background: Static but professional */
+        #hero {
+            background-color: #1e3a8a; 
+            position: relative;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Simple, dark academic pattern for depth */
+            background-image: radial-gradient(circle, #2a52a3 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0;
+            background-color: rgba(30, 58, 138, 0.2); 
+            z-index: 1;
+        }
+        #hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* NEW: Floating/Breathing Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Floating Contact Buttons (Left Side) */
+        .floating-button {
+            position: fixed;
+            left: 1rem;
+            width: 56px; /* 14 tailwind units */
+            height: 56px; /* 14 tailwind units */
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.2s ease-in-out;
+        }
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Back to Top Button Styling (Initial hidden state for animation) */
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .back-to-top-show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Icons Setup (Using simple inline SVG for common shapes) -->
+    <script>
+        // Placeholder function for simple SVG icons
+        const getIcon = (name, size = 24, classes = "") => {
+            const icons = {
+                // New, more specific icons
+                gear: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M12 2v2"/><path d="m15 4-1 3.5"/><path d="M19.5 8.5l-3.5 1"/><path d="M22 12h-2"/><path d="m19.5 15.5-3.5-1"/><path d="m15 19-1-3.5"/><path d="M12 22v-2"/><path d="m9 19 1-3.5"/><path d="M4.5 15.5l3.5-1"/><path d="M2 12h2"/><path d="m4.5 8.5 3.5 1"/><path d="m9 4 1 3.5"/><circle cx="12" cy="12" r="3"/></svg>`,
+                stethoscope: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M14 5H6"/><path d="M22 12v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M14 18v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M9 14v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M12 12v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2"/><circle cx="12" cy="5" r="3"/></svg>`,
+                book: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>`,
+                globe: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+
+                // Previous generic icons (kept for safety in other sections)
+                graduationCap: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M21.42 10.922a1 1 0 0 0-.012-.625l-8.525-5.698a2 2 0 0 0-1.785 0L2.592 10.297a1 1 0 0 0-.012.625l8.525 5.698a2 2 0 0 0 1.785 0z"/><path d="M14.28 17.653l-.008.005a2.001 2.001 0 0 0 1.785 0l8.525-5.698a1 1 0 0 0-.012-.625"/><path d="M3 13v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6"/></svg>`,
+                atom: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><circle cx="12" cy="12" r="2"/><path d="M18.8 15.6l-5.6-3.2"/><path d="M18.8 8.4l-5.6 3.2"/><path d="M5.2 8.4l5.6 3.2"/><path d="M5.2 15.6l5.6-3.2"/></svg>`,
+                users: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+                compass: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></svg>`,
+                mapPin: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M12 22s-8-4.5-8-10A8 8 0 0 1 12 4a8 8 0 0 1 8 8c0 5.5-8 10-8 10z"/><circle cx="12" cy="10" r="3"/></svg>`,
+                phone: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72 17.5 17.5 0 0 0 .1 1.67A2 2 0 0 1 8.78 7.2l-1.42 1.4a15.24 15.24 0 0 0 6.64 6.64l1.4-1.42a2 2 0 0 1 2.4-2.26 17.5 17.5 0 0 0 1.67.1 2 2 0 0 1 1.72 2z"/></svg>`,
+                quote: `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="M3 21c3 0 7-1 7-8V5c0-1.12.9-2 2-2v0c1.12 0 2 .88 2 2v10c0 7 4 8 7 8"/></svg>`,
+                arrowUp: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${classes}"><path d="m18 15-6-6-6 6"/></svg>`
+            };
+            return icons[name] || '';
+        };
+
+        // JS for Mobile Menu Toggle (added for responsiveness)
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Final, cleaned-up external link handler (used only if needed)
+        function openExternalLink(url) {
+            window.open(url, '_blank'); 
+        }
+    </script>
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- ADJUSTMENT: Replaced md:justify-start md:space-x-10 with standard flex control for better spacing -->
+            <div class="flex items-center justify-between py-4 space-x-4"> 
+                
+                <!-- Logo/Branding (Clicking logo serves as Home link) -->
+                <div class="flex items-center justify-start flex-shrink-0 space-x-2">
+                    <a href="#hero" class="flex items-center space-x-2">
+                        <!-- Institute Logo - FIXED: Added robust onerror fallback -->
+                        <img src="fd74528a-64c3-45b1-8cdb-6037b1e66676-removebg-preview.png" 
+                            alt="Mejar Coaching Academy Logo" 
+                            class="h-10 w-auto"
+                            onerror="this.onerror=null; this.src='https://placehold.co/40x40/facc15/1e3a8a?text=MCA';"
+                        >
+                        <span class="text-2xl font-extrabold text-primary tracking-tight transition duration-300 hover:text-secondary">
+                            Mejar <span class="text-secondary hover:text-primary">Academy</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation (Home removed) -->
+                <nav class="hidden md:flex space-x-8 lg:space-x-10">
+                    <a href="#about" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">About</a>
+                    <a href="#director" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Director</a>
+                    <a href="#courses" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Courses</a>
+                    <a href="#features" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Why Us</a>
+                    <a href="#testimonials" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Reviews</a>
+                    <a href="#toppers" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Toppers</a>
+                    <!-- REMOVED: Video link from navigation -->
+                    <a href="#contact" class="text-base font-medium text-gray-700 hover:text-primary transition duration-300">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Button (Hamburger - Added for responsiveness) -->
+                <div class="-mr-2 -my-2 md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-expanded="false">
+                        <span class="sr-only">Open menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Action Button (Desktop Only) -->
+                <!-- ADJUSTMENT: Removed ml-8 and used items-center justify-end to control spacing -->
+                <div class="hidden md:flex items-center justify-end">
+                    <a href="#contact" class="whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-lg text-base font-medium text-white bg-secondary hover:bg-yellow-600 transition duration-300 transform hover:scale-105">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Panel (New Block for Mobile Navigation) -->
+    <div id="mobile-menu" class="fixed top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden hidden z-[100] h-screen bg-gray-900/50 backdrop-blur-sm">
+        <div class="rounded-lg shadow-2xl bg-white ring-1 ring-black ring-opacity-5 divide-y-2 divide-gray-50">
+            <div class="pt-5 pb-6 px-5">
+                <div class="flex items-center justify-between">
+                    <!-- Mobile Logo/Branding - FIXED: Using Uploaded Image -->
+                    <div class="flex items-center space-x-2">
+                        <!-- Added custom styling to img tag inside mobile menu to prevent image error fallback border -->
+                        <img src="fd74528a-64c3-45b1-8cdb-6037b1e66676-removebg-preview.png" 
+                             alt="Mejar Coaching Academy Logo" 
+                             class="h-8 w-auto border-none" 
+                             onerror="this.onerror=null; this.style.border='none'; this.src='https://placehold.co/40x40/facc15/1e3a8a?text=MCA';"
+                        >
+                        <span class="text-xl font-extrabold text-primary">Mejar Academy</span>
+                    </div>
+                    <!-- Close Button -->
+                    <div class="-mr-2">
+                        <button type="button" onclick="toggleMobileMenu()" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-expanded="false">
+                            <span class="sr-only">Close menu</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- Mobile Links (Home removed) -->
+                <div class="mt-6">
+                    <nav class="grid gap-y-4">
+                        <a href="#about" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">About</a>
+                        <a href="#director" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Director</a>
+                        <a href="#courses" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Courses</a>
+                        <a href="#features" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Why Us</a>
+                        <a href="#testimonials" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Reviews</a>
+                        <a href="#toppers" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Toppers</a>
+                        <!-- REMOVED: Video link from mobile menu -->
+                        <a href="#contact" onclick="toggleMobileMenu()" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 transition duration-300">Contact</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="py-6 px-5">
+                <a href="#contact" onclick="toggleMobileMenu()" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-md text-base font-medium text-white bg-secondary hover:bg-yellow-600 transition duration-300">
+                    Enroll Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section id="hero" class="relative pt-24 pb-32 text-white overflow-hidden" data-animation="fade-in">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+                <!-- Applied 'animate-float' class for continuous movement -->
+                <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight fade-in-up animate-float">
+                    <span class="block">Achieve Your Academic Dreams</span>
+                    <span class="block text-secondary mt-2">
+                        With Mejar<br class="sm:hidden">
+                        Coaching<br class="sm:hidden">
+                        Academy
+                    </span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-100 fade-in-up" style="transition-delay: 0.2s;">
+                    The premier coaching institute on the **Lucknow - Prayagraj Road, Ratapur Chauraha, Raebareli**, dedicated to engineering, medical, and school exam excellence.
+                </p>
+                <!-- Applied 'animate-float' class for continuous movement -->
+                <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 fade-in-up animate-float" style="transition-delay: 0.4s;">
+                    <a href="#courses" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-xl text-primary bg-secondary hover:bg-yellow-300 transition duration-300 transform hover:scale-105">
+                        Explore Our Courses
+                    </a>
+                    <a href="#contact" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-full text-white hover:bg-white hover:text-primary transition duration-300 transform hover:scale-105">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Us Section -->
+        <section id="about" class="py-16 md:py-24 bg-background-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+                    <div class="lg:col-span-6 fade-in-up">
+                        <h2 class="text-base text-primary font-semibold tracking-wide uppercase">Our Legacy</h2>
+                        <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                            Shaping Future Leaders Since Day One
+                        </p>
+                        <p class="mt-4 text-lg text-gray-600">
+                            Mejar Coaching Academy is a beacon of quality education located strategically on the **Lucknow - Prayagraj Road, Ratapur Chauraha, Raebareli**. We believe that every student possesses the potential for greatness. Our institute is built on the pillars of rigorous academics, dedicated mentorship, and a commitment to transforming aspirations into achievements.
+                        </p>
+                        <p class="mt-4 text-gray-600">
+                            We pride ourselves on creating a focused, distraction-free learning environment where students preparing for high-stakes exams like **JEE, NEET, and CBSE/ICSE** boards can thrive. Join us, and become part of a success story!
+                        </p>
+                    </div>
+                    <div class="mt-10 lg:mt-0 lg:col-span-6 fade-in-up" style="transition-delay: 0.2s;">
+                        <img class="w-full h-auto rounded-xl shadow-2xl object-cover transform hover:scale-[1.01] transition duration-500" 
+                            src="modern classroom.jpg" 
+                            alt="Modern classroom at Mejar Coaching Academy">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2b. Director's Intro Section (UPDATED) -->
+        <section id="director" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <!-- Director Image - FIXED: Using Placeholder URL due to access issues -->
+                    <div class="w-full md:w-1/3 fade-in-up">
+                         <img class="w-full h-auto rounded-xl shadow-2xl object-cover border-4 border-secondary" 
+                            src="director image.png" 
+                            alt="Director, Mr. Bhishma Singh">
+                    </div>
+                    <!-- Director Content -->
+                    <div class="w-full md:w-2/3 fade-in-up" style="transition-delay: 0.2s;">
+                        <h2 class="text-base text-secondary font-semibold tracking-wide uppercase">Leadership</h2>
+                        <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                            Message from the Director
+                        </p>
+                        <blockquote class="mt-6 border-l-4 border-primary pl-4 italic text-gray-600 text-lg">
+                            "At Mejar Coaching Academy, we believe that education is not just about learning facts, but about training the mind to think. Our mission is to empower every student with the knowledge, confidence, and skills to excel in their exams and beyond. We are committed to providing the best guidance and a supportive environment to help you achieve your dreams."
+                        </blockquote>
+                        <div class="mt-6">
+                            <p class="text-xl font-bold text-primary">Mr. Bhishma Singh</p>
+                            <p class="text-sm text-gray-500">Director, Mejar Coaching Academy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Courses Offered Section -->
+        <section id="courses" class="py-16 md:py-24 bg-background-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-base text-secondary font-semibold tracking-wide uppercase fade-in-up">What We Offer</h2>
+                <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in-up">
+                    Specialized Programs for Maximum Results
+                </p>
+
+                <div class="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Course 1: JEE (Engineering) -->
+                    <div class="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up">
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Gear -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M12 2v2"/><path d="m15 4-1 3.5"/><path d="M19.5 8.5l-3.5 1"/><path d="M22 12h-2"/><path d="m19.5 15.5-3.5-1"/><path d="m15 19-1-3.5"/><path d="M12 22v-2"/><path d="m9 19 1-3.5"/><path d="M4.5 15.5l3.5-1"/><path d="M2 12h2"/><path d="m4.5 8.5 3.5 1"/><path d="m9 4 1 3.5"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">JEE Main & Advanced</h3>
+                        <p class="text-gray-600">Comprehensive coaching for IIT-JEE. Focused on conceptual clarity and problem-solving techniques.</p>
+                    </div>
+                    
+                    <!-- Course 2: NEET (Medical) -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Stethoscope -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M14 5H6"/><path d="M22 12v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M14 18v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M9 14v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M12 12v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2"/><circle cx="12" cy="5" r="3"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">NEET UG Preparation</h3>
+                        <p class="text-gray-600">Expert guidance for medical entrance exams, covering Physics, Chemistry, and Biology in depth.</p>
+                    </div>
+
+                    <!-- Course 3: School (Class 11-12) -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Book -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">School Boards (11th & 12th)</h3>
+                        <p class="text-gray-600">Targeted coaching for CBSE, ICSE, and UP Board exams to ensure top scores in core subjects.</p>
+                    </div>
+
+                    <!-- Course 4: Foundation (Class 6-10) -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg hover:shadow-xl transition duration-500 transform hover:-translate-y-1 fade-in-up" style="transition-delay: 0.3s;">
+                        <div class="flex justify-center items-center h-16 w-16 mx-auto bg-primary rounded-full text-white mb-4 transition duration-300 hover:rotate-6">
+                            <!-- Inline SVG for Globe -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary w-8 h-8"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Foundation Courses (6th - 10th)</h3>
+                        <p class="text-gray-600">Building strong fundamentals early for competitive advantage in future exams, starting from **Class 6**.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Why Choose Us / Features Section -->
+        <section id="features" class="py-16 md:py-24 bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white text-center">
+                <h2 class="text-base text-secondary font-semibold tracking-wide uppercase fade-in-up">Our Edge</h2>
+                <p class="mt-2 text-3xl font-extrabold sm:text-4xl fade-in-up">
+                    Why Students Choose Mejar Academy
+                </p>
+
+                <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <!-- Feature 1 -->
+                    <div class="p-6 bg-primary/90 backdrop-blur-sm rounded-xl shadow-2xl border-b-4 border-secondary transition duration-500 hover:bg-primary/80 fade-in-up">
+                        <div class="text-4xl text-secondary mb-4">★</div>
+                        <h3 class="text-2xl font-bold mb-2">Experienced Faculty</h3>
+                        <p class="text-gray-200">Our mentors are industry veterans with proven track records in their respective fields.</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="p-6 bg-primary/90 backdrop-blur-sm rounded-xl shadow-2xl border-b-4 border-secondary transition duration-500 hover:bg-primary/80 fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="text-4xl text-secondary mb-4">📊</div>
+                        <h3 class="text-2xl font-bold mb-2">Personalized Attention</h3>
+                        <p class="text-gray-200">Small batch sizes ensure every student receives focused guidance and doubt resolution.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="p-6 bg-primary/90 backdrop-blur-sm rounded-xl shadow-2xl border-b-4 border-secondary transition duration-500 hover:bg-primary/80 fade-in-up" style="transition-delay: 0.4s;">
+                        <div class="text-4xl text-secondary mb-4">🧪</div>
+                        <h3 class="text-2xl font-bold mb-2">Modern Labs & Library</h3>
+                        <p class="text-gray-200">State-of-the-art facilities and a vast collection of study material to support holistic learning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Testimonials/Reviews Section -->
+        <section id="testimonials" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-base text-secondary font-semibold tracking-wide uppercase fade-in-up">
+                    Student Voices
+                </h2>
+                <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in-up">
+                    What Our Students Say
+                </p>
+
+                <!-- FIX: Using Grid layout for perfect alignment and stability -->
+                <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+                    
+                    <!-- Testimonial 1 -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg transition duration-500 hover:shadow-2xl fade-in-up min-h-[300px] max-w-sm w-full">
+                        <div class="flex justify-center mb-4" innerHTML="${getIcon('quote', 36, 'text-primary opacity-60')}"></div>
+                        <p class="text-lg text-gray-700 italic mb-6">
+                            "The personalized mentorship here is unmatched. My confidence and score in NEET preparation increased dramatically thanks to the dedicated faculty."
+                        </p>
+                        <div class="pt-4 border-t border-gray-200 text-center">
+                            <p class="text-primary font-bold">Ravi Kumar</p>
+                            <p class="text-sm text-gray-500">NEET Aspirant, Batch 2024</p>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg transition duration-500 hover:shadow-2xl fade-in-up min-h-[300px] max-w-sm w-full" style="transition-delay: 0.2s;">
+                        <div class="flex justify-center mb-4" innerHTML="${getIcon('quote', 36, 'text-primary opacity-60')}"></div>
+                        <p class="text-lg text-gray-700 italic mb-6">
+                            "Mejar Academy helped me build a strong foundation in Math and Science right from Class 9. It made the jump to 11th grade much easier."
+                        </p>
+                        <div class="pt-4 border-t border-gray-200 text-center">
+                            <p class="text-primary font-bold">Neha Sharma</p>
+                            <p class="text-sm text-gray-500">Foundation Course, Class 10</p>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="p-6 bg-background-light rounded-xl shadow-lg transition duration-500 hover:shadow-2xl fade-in-up min-h-[300px] max-w-sm w-full" style="transition-delay: 0.4s;">
+                        <div class="flex justify-center mb-4" innerHTML="${getIcon('quote', 36, 'text-primary opacity-60')}"></div>
+                        <p class="text-lg text-gray-700 italic mb-6">
+                            "The doubt clearing sessions are fantastic. They don't just solve problems, they ensure we understand the concepts deeply. Highly recommend for JEE."
+                        </p>
+                        <div class="pt-4 border-t border-gray-200 text-center">
+                            <p class="text-primary font-bold">Vivek Yadav (Parent)</p>
+                            <p class="text-sm text-gray-500">JEE Student's Parent</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 6. Toppers Section -->
+        <section id="toppers" class="py-16 md:py-24 bg-background-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-base text-primary font-semibold tracking-wide uppercase fade-in-up">Wall of Fame</h2>
+                <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in-up">
+                    Our Previous Year Toppers
+                </p>
+
+                <div class="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
+                    
+                    <!-- Topper 1 (JEE - Grad Cap Emoji) -->
+                    <div class="p-4 bg-white rounded-xl shadow-xl transition duration-500 transform hover:scale-[1.03] fade-in-up">
+                        <div class="text-6xl mx-auto mb-2 w-24 h-24 flex items-center justify-center">
+                            🎓
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Ayush Sharma</h3>
+                        <p class="text-sm font-medium text-primary">JEE Rank: 1250</p>
+                        <p class="text-xs text-gray-600 mt-1">Batch 2024</p>
+                    </div>
+
+                    <!-- Topper 2 (NEET - Doctor/Health Emoji) -->
+                    <div class="p-4 bg-white rounded-xl shadow-xl transition duration-500 transform hover:scale-[1.03] fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="text-6xl mx-auto mb-2 w-24 h-24 flex items-center justify-center">
+                            👩‍⚕️
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Priya Singh</h3>
+                        <p class="text-sm font-medium text-primary">NEET Score: 685/720</p>
+                        <p class="text-xs text-gray-600 mt-1">Batch 2023</p>
+                    </div>
+
+                    <!-- Topper 3 (Boards - Student/Teacher Emoji) -->
+                    <div class="p-4 bg-white rounded-xl shadow-xl transition duration-500 transform hover:scale-[1.03] fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="text-6xl mx-auto mb-2 w-24 h-24 flex items-center justify-center">
+                            👨‍🏫
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Vikas Yadav</h3>
+                        <p class="text-sm font-medium text-primary">CBSE 12th: 97.2%</p>
+                        <p class="text-xs text-gray-600 mt-1">Batch 2024</p>
+                    </div>
+
+                    <!-- Topper 4 (Foundation/Boards - Student/Teacher Emoji) -->
+                    <div class="p-4 bg-white rounded-xl shadow-xl transition duration-500 transform hover:scale-[1.03] fade-in-up" style="transition-delay: 0.3s;">
+                        <div class="text-6xl mx-auto mb-2 w-24 h-24 flex items-center justify-center">
+                            🧑‍🎓
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Neha Rastogi</h3>
+                        <p class="text-sm font-medium text-primary">Foundation Class 10th: 95%</p>
+                        <p class="text-xs text-gray-600 mt-1">Batch 2023</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: YouTube CTA Section (Replaced Embedded Video) -->
+        <section id="video" class="py-16 md:py-24 bg-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-base text-secondary font-semibold tracking-wide uppercase fade-in-up">Expert Content</h2>
+                <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in-up mb-6">
+                    Watch Our Exclusive Video Lectures
+                </p>
+
+                <p class="max-w-xl mx-auto text-gray-600 mb-8 fade-in-up" style="transition-delay: 0.2s;">
+                    Explore in-depth lessons on Mathematics, Physics, and more from our top faculty directly on our official channel.
+                </p>
+
+                <a href="https://youtube.com/@mejarcoachingacademy6388?si=-yj29eo_MA0K2Ntr" target="_blank" class="inline-flex items-center justify-center px-10 py-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-red-600 hover:bg-red-700 transition duration-300 transform hover:scale-105 fade-in-up" style="transition-delay: 0.4s;">
+                    <svg class="w-6 h-6 mr-3 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.122C19.724 3.5 12 3.5 12 3.5s-7.724 0-9.376.564a3.016 3.016 0 0 0-2.122 2.122C.5 7.826.5 12 .5 12s0 4.174.564 5.814a3.016 3.016 0 0 0 2.122 2.122C4.276 20.5 12 20.5 12 20.5s7.724 0 9.376-.564a3.016 3.016 0 0 0 2.122-2.122C23.5 16.174 23.5 12 23.5 12s0-4.174-.502-5.814zm-14.86 8.54L15.5 12 8.638 9.278v6.442z"/></svg>
+                    Visit Our YouTube Channel
+                </a>
+            </div>
+        </section>
+
+
+        <!-- 7. Contact & Location Section -->
+        <section id="contact" class="py-16 md:py-24 bg-background-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Contact Form (FIXED: Configured for Formspree) -->
+                    <div class="p-8 bg-white rounded-xl shadow-2xl fade-in-up">
+                        <h2 class="text-3xl font-extrabold text-primary mb-6">Start Your Journey Today</h2>
+                        
+                        <!-- Formspree Configuration -->
+                        <form id="contact-form" action="https://formspree.io/f/xqarlnqo" method="POST" onsubmit="submitForm(event)" class="space-y-6">
+                            
+                            <div>
+                                <label for="contact-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="contact-name" name="name" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 border focus:border-primary focus:ring-primary transition duration-300">
+                            </div>
+
+                            <div>
+                                <label for="contact-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="contact-email" name="email" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 border focus:border-primary focus:ring-primary transition duration-300">
+                            </div>
+
+                            <div>
+                                <label for="contact-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input type="tel" id="contact-phone" name="phone" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 border focus:border-primary focus:ring-primary transition duration-300">
+                            </div>
+
+                            <div>
+                                <label for="contact-course" class="block text-sm font-medium text-gray-700">Interested Course</label>
+                                <!-- FIXED: Added required attribute to select field -->
+                                <select id="contact-course" name="course" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 border focus:border-primary focus:ring-primary transition duration-300">
+                                    <option>JEE Main & Advanced</option>
+                                    <option>NEET UG Preparation</option>
+                                    <option>School Boards (11th & 12th)</option>
+                                    <option>Foundation Courses (6th - 10th)</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-medium text-white bg-primary hover:bg-blue-800 transition duration-300 transform hover:scale-[1.01]">
+                                Submit Inquiry
+                            </button>
+                            <!-- Element to display messages -->
+                            <div id="form-message" class="text-center font-medium"></div>
+                        </form>
+                    </div>
+
+                    <!-- Location & Details -->
+                    <div class="fade-in-up" style="transition-delay: 0.2s;">
+                        <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Find Us Easily</h2>
+                        
+                        <!-- Address Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg mb-6 flex items-start space-x-4 transition duration-300 hover:shadow-2xl">
+                            <div class="p-3 rounded-full bg-secondary/20 text-secondary mt-1" innerHTML="${getIcon('mapPin', 24, 'w-6 h-6')}"></div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">Our Location</h3>
+                                <p class="text-gray-600 font-medium">Mejar Coaching Academy</p>
+                                <p class="text-gray-700">Lucknow - Prayagraj Road, Ratapur Chauraha, Raebareli, UP, India</p>
+                                <a href="https://maps.app.goo.gl/J5ejcGfQbPdDRKve9" target="_blank" class="text-primary hover:text-secondary mt-2 inline-block font-medium underline transition duration-300">
+                                    View on Google Maps
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Phone Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg flex items-start space-x-4 transition duration-300 hover:shadow-2xl">
+                            <div class="p-3 rounded-full bg-secondary/20 text-secondary mt-1" innerHTML="${getIcon('phone', 24, 'w-6 h-6')}"></div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">Contact Us</h3>
+                                <p class="text-gray-600">Call us for immediate assistance or counseling sessions.</p>
+                                
+                                <!-- Number 1 - Click-to-Call -->
+                                <a href="tel:+917355268972" class="text-primary hover:text-secondary mt-2 block text-xl font-bold transition duration-300">
+                                    +91 73552 68972
+                                </a>
+                                <!-- Number 2 - Click-to-Call -->
+                                <a href="tel:+919919083210" class="text-primary hover:text-secondary block text-xl font-bold transition duration-300">
+                                    +91 99190 83210
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Embedded Google Map -->
+                        <div class="mt-8 h-64 rounded-xl shadow-2xl overflow-hidden">
+                            <iframe 
+                                width="100%" 
+                                height="100%" 
+                                frameborder="0" 
+                                style="border:0" 
+                                allowfullscreen="" 
+                                aria-hidden="false" 
+                                tabindex="0"
+                                src="https://maps.google.com/maps?q=Mejar+Coaching+Academy,+Lucknow+-+Prayagraj+Road,+Ratapur+Chauraha,+Raebareli&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            ></iframe>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Contact Buttons (Left Side) -->
+    <a href="https://wa.me/917355268972" target="_blank" class="floating-button bg-green-500 hover:bg-green-600 bottom-[7.5rem] md:bottom-[7.5rem] z-[1001]" aria-label="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" class="w-8 h-8"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95l-1.45 5.31 5.45-1.41c1.45.79 3.08 1.21 4.58 1.21 5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zm0 1.8c4.48 0 8.1 3.62 8.1 8.1s-3.62 8.1-8.1 8.1c-1.4 0-2.8-.37-4.05-1.09l-.29-.17-2.92.76.77-2.83-.19-.3c-.76-1.28-1.17-2.78-1.17-4.37 0-4.48 3.62-8.1 8.1-8.1zm-3.3 4.5l-1.3 1.3c-.09.09-.12.21-.12.33s.03.24.12.33l1.3 1.3 1.3-1.3c.09-.09.21-.12.33-.12s.24.03.33.12l1.3 1.3 1.3-1.3c.09-.09.21-.12.33-.12s.24.03.33.12l1.3 1.3c.09.09.12.21.12.33s-.03.24-.12.33l-1.3 1.3 1.3 1.3c.09.09.12.21.12.33s-.03.24-.12.33l-1.3 1.3c-.09.09-.21.12-.33.12s-.24-.03-.33-.12l-1.3-1.3-1.3 1.3c-.09.09-.21.12-.33.12s-.24-.03-.33-.12l-1.3-1.3-1.3 1.3c-.09.09-.21.12-.33-.12s-.24.03-.33.12l-1.3 1.3z"/></svg>
+    </a>
+
+    <a href="tel:+917355268972" class="floating-button bg-primary hover:bg-blue-800 bottom-8 md:bottom-8 z-[1001]" aria-label="Call Now">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72 17.5 17.5 0 0 0 .1 1.67A2 2 0 0 1 8.78 7.2l-1.42 1.4a15.24 15.24 0 0 0 6.64 6.64l1.4-1.42a2 2 0 0 1 2.4-2.26 17.5 17.5 0 0 0 1.67.1 2 2 0 0 1 1.72 2z"/></svg>
+    </a>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-6">
+                
+                <!-- Copyright and Designed By Container -->
+                <div class="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left">
+                    <p class="mb-0">
+                        &copy; 2025 Mejar Coaching Academy. All rights reserved.
+                    </p>
+                    <!-- REVERTED: Now explicitly includes Shubh Mishra as requested -->
+                    <p class="text-gray-500 text-xs mt-1">
+                        Designed & Developed by
+                        <a href="https://www.linkedin.com/in/shubh-mishra-17000629b" target="_blank" rel="noopener noreferrer" class="text-secondary hover:underline">
+                            Shubh Mishra
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <!-- Social Media Links -->
+                    <a href="https://m.facebook.com/profile.php?id=100054509288448&name=xhp_nt__fb__action__open_user" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Facebook</a>
+                    <a href="https://www.instagram.com/mejarcoachingacademy?igsh=d3dmaWtxeDNyNWll" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">Instagram</a>
+                    <a href="https://youtube.com/@mejarcoachingacademy6388?si=-yj29eo_MA0K2Ntr" target="_blank" class="text-gray-400 hover:text-secondary transition duration-300">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-8 right-8 p-5 rounded-full bg-primary text-white shadow-2xl md:p-6 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-primary/50 z-[1000]" 
+            aria-label="Back to top">
+        <!-- Direct SVG for reliable rendering -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+
+
+    <script>
+        // --- JavaScript for Animations and Interactions ---
+
+        // 1. Smooth Scroll Animation using IntersectionObserver
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Check if the target element has the initial animation class
+                    if (entry.target.classList.contains('fade-in-up')) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in-view');
+                        } else {
+                            // Optional: Remove in-view class to re-animate on scroll up/down
+                            // entry.target.classList.remove('in-view'); 
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: '0px 0px -100px 0px' // Start animation a bit before it hits the bottom
+            });
+
+            // Target all elements with the 'fade-in-up' class
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
+
+
+        // 2. Custom Message Box (replacing alert())
+        function showMessage(text, type = 'info') {
+            const msgBox = document.getElementById('form-message');
+            // Remove previous classes
+            msgBox.className = 'text-center font-medium';
+
+            if (type === 'success') {
+                msgBox.textContent = text;
+                msgBox.classList.add('text-green-700', 'bg-green-100', 'py-2', 'px-4', 'rounded-lg');
+            } else if (type === 'error') {
+                msgBox.textContent = text;
+                msgBox.classList.add('text-red-700', 'bg-red-100', 'py-2', 'px-4', 'rounded-lg');
+            } else { // info (sending)
+                 msgBox.textContent = text;
+                 msgBox.classList.add('text-blue-700', 'bg-blue-100', 'py-2', 'px-4', 'rounded-lg');
+            }
+            
+            // Clear the message after 5 seconds
+            if (type !== 'info') {
+                setTimeout(() => {
+                    msgBox.textContent = '';
+                    msgBox.className = 'text-center font-medium'; // Reset all styles
+                }, 5000);
+            }
+        }
+        
+        // Function to handle form submission via AJAX (Formspree)
+        async function submitForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formURL = form.action;
+            const formData = new FormData(form);
+            
+            showMessage('Sending...', 'info');
+
+            try {
+                const response = await fetch(formURL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    showMessage('Thank you! Your inquiry has been submitted successfully.', 'success');
+                    form.reset();
+                } else {
+                    const result = await response.json();
+                    let message = result.errors ? result.errors.map(err => err.message).join(", ") : 'Error: Could not submit form.';
+                    showMessage(message, 'error');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                showMessage('Network error. Please try again later.', 'error');
+            }
+        }
+
+
+        // 3. Back to Top Button Visibility Logic 
+        const backToTopButton = document.getElementById('back-to-top');
+        const showOnPx = 300; // Threshold 
+        
+        const scrollContainer = () => {
+            return document.documentElement || document.body;
+        };
+
+        document.addEventListener('scroll', () => {
+            if (scrollContainer().scrollTop > showOnPx) {
+                backToTopButton.classList.add('back-to-top-show');
+            } else {
+                backToTopButton.classList.remove('back-to-top-show');
+            }
+        });
+    </script>
+</body>
+</html>
